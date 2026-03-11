@@ -27,21 +27,59 @@ def example_book():
     "injustice and lost innocence in the 1930s South through young Scout’s eyes")
 
 def normalise_text(s):
-    return s.strip().lower()
+    return s.strip().upper()
 
 def print_loop():
    for record_num, details in media_dict.items():
         line_1 = []
         for key, value in details.items():
             line_1.append(f"{key}: {value}")
-        print(f"Book {record_num}: " + ", ".join(line_1)) 
+        print(f"BOOK {record_num}: " + ", ".join(line_1)) 
 
+def allocate_parts(parts, keys):
+    book = {}
+    for part in parts:
+        print(f"Value: {part}")
+        print("""
+Which Key should this be assigned to ?
+1 = Title
+2 = Author(s)
+3 = Genre
+4 = Rating
+5 = Opinion
+0 - Skip""")
+        while True:
+            key_choice = input("Enter number: ").strip()
+            if key_choice == "0":
+                break
+            if not key_choice.isdigit():
+                print("Please enter a number from 0 to 5")
+                continue
+            elif int(key_choice) > 5:
+                print("Please enter a number from 0 to 5")
+                continue
+            index = int(key_choice) - 1
+            selected_key = keys[index]
+            if selected_key in book:
+                print(f"{selected_key} already has a value. Select another key")
+            else:
+                book[selected_key] = part
+                break
+#   print("Allocation Complete")    #debug line
+#   print(book)                     #debug line
+    return book
+
+def next_id():
+    next_id = max(media_dict.keys(), default=0) + 1
+    return next_id
+
+    
  
 # - dictionaries & lists -
 
 media = []
 media_dict = {}
-
+keys = ["Title", "Author(s)", "Genre", "Rating /5", "Review"]
 
 
 # - program -
@@ -49,24 +87,30 @@ media_dict = {}
 while True:
     raw_input = input("""
 Enter the Book Title, Author(s), Genre, Rating /5 & your review. 
-Enter D for an example 
-Each section should be seperated by a comma ',' and comma's should not be used elsewhere in the text: """)
-    if raw_input == "":
-        break
+Enter D for an example, Q to exit
+Each section should be seperated by a comma ','
+Comma's should not be used elsewhere in the text: """)
     
     normal_input = normalise_text(raw_input)
 #    print(normal_input)    #debug line
     parts = normal_input.split(",")
 #    print(parts)           #debug line
+    
+    if normal_input == "Q":
+        break
 
-    if normal_input == "d":
+    elif normal_input == "D":
         example_book()
+        continue
   
     elif len(parts) % 5 != 0:
-        print("Sections are missing, please review entry") # Come back to this for manual assignment later
+        print("Sections are missing, please review entry")
+        media_dict[next_id()] = allocate_parts(parts, keys)
+        print_loop()
         continue
+
 #   elif  #placeholder for check if title exists 
-    index = 0
+
     new_entry = {
         "Title": parts[0],
         "Author(s)": parts[1],
@@ -75,8 +119,7 @@ Each section should be seperated by a comma ',' and comma's should not be used e
         "Review": parts[4],
     }
 
-    next_id = max(media_dict.keys(), default=0) + 1
-    media_dict[next_id] = new_entry
+    media_dict[next_id()] = new_entry
     print("\nNew entry added")
     print_loop()
 
