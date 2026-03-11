@@ -31,13 +31,13 @@ while True:
         print("Enter a valid input")
 
 
-print(f"\n{user_sent}\n")
+print(f"\n{user_sent}")
 
 word_count = 1
 index = 0
 sentence = {}
-user_sent_list = user_sent.split(" ")
-print(f"\n{user_sent_list}")
+user_sent_list = user_sent.lower().split(" ")
+print(f"\n{user_sent_list}\n")
 
 for index in user_sent_list:
     sentence[f"word_{word_count}"] = index
@@ -45,3 +45,10 @@ for index in user_sent_list:
 
 for key, value in sentence.items():
     print(key, value)
+print("\n")
+count_words = {}
+for word in user_sent_list:
+    count_words[word] = count_words.get(word, 0) + 1
+for key, value in count_words.items():
+    print(key, value)
+
