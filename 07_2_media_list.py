@@ -79,7 +79,7 @@ def next_id():
 
 media = []
 media_dict = {}
-keys = ["Title", "Author(s)", "Genre", "Rating /5", "Review"]
+keys = ("Title", "Author(s)", "Genre", "Rating /5", "Review")
 
 
 # - program -
@@ -88,7 +88,7 @@ while True:
     raw_input = input("""
 Enter the Book Title, Author(s), Genre, Rating /5 & your review. 
 Enter D for an example, Q to exit
-Each section should be seperated by a comma ','
+Each section should be separated by a comma ','
 Comma's should not be used elsewhere in the text: """)
     
     normal_input = normalise_text(raw_input)
@@ -116,7 +116,7 @@ Comma's should not be used elsewhere in the text: """)
         "Author(s)": parts[1],
         "Genre": parts[2],
         "Rating /5": parts[3],
-        "Review": parts[4],
+        "Review": parts[4]
     }
 
     media_dict[next_id()] = new_entry
