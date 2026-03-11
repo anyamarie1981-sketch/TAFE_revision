@@ -1,5 +1,3 @@
-
-
 """
 In this file, let's build a list of all the books we've read (or movies we've 
 watched or games we've played -- doesn't matter) in the last few months.
@@ -27,53 +25,129 @@ keys = ["Title", "Author(s)", "Genre", "Opinion"]
 media = []
 media_dict = {}
 
-# -------- INPUT LOOP --------
+# - DEFINED FUNCTIONS -
+
+def find_value(inner_dict, inner_key):
+    for key, value in inner_dict.items():
+        if key == inner_key:
+            return value
+        elif isinstance(value, dict):
+            result = find_value(value, inner_key)
+            if result:
+                return result
+    return None
+
+def title_case(s):
+    return s.strip().casefold()
+
+def check_title(data, title_for_check):
+    book = title_case(title_for_check)
+    if isinstance(data, dict):
+        if "Title" in data and title_case(str(data["Title"])) == book:
+            return data
+        for value in data.values():
+            found = check_title(value, title_for_check)
+            if found is not None:
+                return found
+    elif isinstance(data, list):
+        for item in data:
+            found = check_title(item, title_for_check)
+            if found is not None:
+                return found
+
+    return None
+
+def print_loop():
+    for record_num, details in media_dict.items():
+        line_1 = []
+        for key, value in details.items():
+            line_1.append(f"{key}: {value}")
+        print(f"Book {record_num}: " + ", ".join(line_1))
+
+def allocate_parts_to_keys(parts, keys):
+    book = {}
+    for part in parts:
+        print(f"\nValue: {part}")
+        print("""
+Which key should this be assigned to?
+1 = Title
+2 = Author(s)
+3 = Genre
+4 = Opinion
+0 - Skip              
+""")
+        while True:
+            choice = input("Enter number: ").strip()
+            if choice == "0":
+                break
+            if not choice.isdigit():
+                print("Please enter a number from 0-4")
+                continue
+            index = int(choice) - 1
+            if index < 0 or index >= 4:
+                print("Please enter a number from 0-4")
+                continue
+            selected_key = keys[index]
+            if selected_key in book:
+                print(f"'{selected_key}' already has a value. Choose another key")
+            else:
+                book[selected_key] = part
+                break
+        
+
+    return book
+
+            
+
+
+
+# - INPUT LOOP -
 while True:
     raw_input = input(
-        "Enter the Book Title, Author(s) Genre & your review. "
-        "Each section should be seperated by a comma ',': "
+        "\nEnter the Book Title, Author(s) Genre & your review. "
+        "Each section should be seperated by a comma ',' " 
+        "Do not use commas in your information sections: "
     )
     if raw_input == "":
         break
-    
 
-    for value in raw_input.split(","):
-        new_value = value.strip()
-        if new_value in media:
-            print("Book already entered. Please enter a different book.")
-        else:               
-            media.append(new_value)
-        print(new_value)
-        
+    parts = [p.strip() for p in raw_input.split(",")]
 
-# -------- PROCESSING --------
-if len(media) % 4 != 0:
-    print("Input error: data is not in groups of 4")
-else:
-    index = 0
-    while index < len(media):
-        current_record = {
-            keys[0]: media[index],
-            keys[1]: media[index + 1],
-            keys[2]: media[index + 2],
-            keys[3]: media[index + 3],
-        }
-        [index // 4 + 1] = current_record
-        index += 4
+    if len(parts) != 4:
+        print("\nInput error: data is not in groups of 4. Unable to automatically allocate to keys.")
+        print(parts)
+        new_entry = allocate_parts_to_keys(parts, keys)
 
-# -------- PRINTING --------
-        for record_num, details in media_dict.items():
-            line = []
-            for key, value in details.items():
-                line.append(f"{key}: {value}")
-            print(f"Book {record_num}: " + ", ".join(line))
+    else:
+         new_entry = {
+        "Title": parts[0],
+        "Author(s)": parts[1],
+        "Genre": parts[2],
+        "Opinion": parts[3],
+    }           
 
-    
+    existing_book = check_title(media_dict, new_entry["Title"])
 
-    
+    if existing_book is not None:
+            print(f"'{new_entry["Title"]}' already exists")
+            choice = input("Do you want to update the existing entry? (y/n): ").strip().lower()
+
+            if choice in ("y", "yes"):
+                existing_book.update(new_entry)
+                print("Entry updated")
+                print_loop()
+            else:
+                print("Update cancelled")
+            continue
+    next_id = max(media_dict.keys(), default=0) + 1
+    media_dict[next_id] = new_entry
+    print("\nNew entry added")
+    print_loop()
 
 
-
+# - PRINTING -
+print("\nBook Reading List")
+print_loop()
 
 # for title in media:
 #     # Do something fun here, if you like, but try outputting your data again.
