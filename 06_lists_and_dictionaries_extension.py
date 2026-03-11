@@ -2,7 +2,7 @@
 
 # File: C:\Users\dandy\OneDrive\TAFE - Onedrive\
 # ICTPRG302 - Apply introductory programming techniques - ICT40120 (Programming) - Sem 1 2026\
-# Revision\WK 06\06_lists_and_dictionaries_extention.py
+# Revision\WK 06\06_lists_and_dictionaries_extension.py
 # Author: Anya Polmear
 # Copyright 2026: Anya Polmear 2026
 
