@@ -25,7 +25,7 @@ when we go to use it.
 # starting variables
 keys = ["Title", "Author(s)", "Genre", "Opinion"]
 media = []
-media_dic = {}
+media_dict = {}
 
 # -------- INPUT LOOP --------
 while True:
@@ -58,11 +58,11 @@ else:
             keys[2]: media[index + 2],
             keys[3]: media[index + 3],
         }
-        media_dic[index // 4 + 1] = current_record
+        [index // 4 + 1] = current_record
         index += 4
 
 # -------- PRINTING --------
-        for record_num, details in media_dic.items():
+        for record_num, details in media_dict.items():
             line = []
             for key, value in details.items():
                 line.append(f"{key}: {value}")
