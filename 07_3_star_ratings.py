@@ -64,22 +64,7 @@ def print_loop():
               f" The average rating was: {calcs["avg"]}")
         # print(type(ratings))
         # print(ratings)
-
-# def rating_min():
-#     for entry in ratings:
-#         minimum = min(entry["Rating"])
-#     return minimum        
-
-# def rating_max():
-#     for entry in ratings:
-#         maximum = max(entry["Rating"])
-#     return maximum  
-
-# def rating_avg():
-#     for entry in ratings:
-#         average = sum(entry["Rating"]) / len(entry["Rating"])
-#         round_average = round(float(average), 2)
-#     return round_average  
+ 
 
 def rating_calc(entry):
     ratings = entry["Rating"]
