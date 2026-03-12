@@ -29,7 +29,8 @@ print(grades)
 
 print("""\n14. Check if a Key Exists in a Dictionary
 Check if "Alice" is a key in the grades dictionary and print the result.""")
-print(grades.get("Alice"))
+alice_check = grades.get("Alice")
+print(alice_check)
 
 print("""\n15. Print All Student Names
 Use a loop to print all the keys (student names) in the grades dictionary.""")
