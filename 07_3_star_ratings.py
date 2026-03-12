@@ -36,19 +36,110 @@ Those averages look a bit ugly, please instead output them to 2 decimal places, 
 Extension 2:
 See how you might factor this into functions to improve readability.
 """
+# - Starting Variables -
+ratings = []
+dictionary_keys = ("Title", "Rating")
 
-ratings = {}
+# - Defined Functions - 
 
+def normal_text(s):
+    return s.strip().casefold()
+
+
+def check_title(ratings, entry_check):
+    entry = normal_text(entry_check)
+    for item in ratings:
+        if normal_text(item["Title"]) == entry:
+            return item
+    return None
+
+def print_loop():
+    for entry in ratings:
+        title = entry["Title"].upper()
+        ratings_list = entry["Rating"]
+        print(f"\"{title}\" had ratings {ratings_list}.")
+        print(f"The minimum rating was: {rating_min()};" 
+              f" The maximum rating was: {rating_max()};"
+              f" The average rating was: {rating_avg()}")
+        # print(type(ratings))
+        # print(ratings)
+
+def rating_min():
+    for entry in ratings:
+        minimum = min(entry["Rating"])
+    return minimum        
+
+def rating_max():
+    for entry in ratings:
+        maximum = max(entry["Rating"])
+    return maximum  
+
+def rating_avg():
+    for entry in ratings:
+        average = sum(entry["Rating"]) / len(entry["Rating"])
+        round_average = round(float(average), 2)
+    return round_average  
+
+# - Input Loop -
+print("""
+Enter a Title followed by a rating. Ratings are out of 5.
+This should be in the format: Title, Number
+Example: Frankenstein, 5   
+""")
 while True:
     raw_input = input("Title and rating: ")
     if raw_input == "":
         break
+    normal_input = normal_text(raw_input)
+#    print(normal_input)      #debug line
+    parts = normal_input.split(",")
+#    print(parts)            #debug line
+ 
+    if len(parts) % 2 != 0:
+        print("Please re-enter your title and rating")
+        continue
+    try:
+        num_check = int(parts[1])
+        print(f"num_check: {num_check}")
+    except ValueError:
+        print("Rating must be a number from 0-5")
+        continue 
+    if not (0 <= num_check <= 5):
+        print("Rating must be a number from 0-5")
+        continue 
+
+    else:
+        new_title = {
+            "Title": parts[0],
+            "Rating": [num_check]
+        }
+    #        print(f"new-title: {new_title}")        #debug line
+
+    #    print("ratings type:", type(ratings), ratings)
+
+    existing_entry = check_title(ratings, parts[0])
+
+    if existing_entry is not None:
+        existing_entry["Rating"].append(num_check)
+        print("\nEntry updated")
+        print_loop()
+        continue
+    else:
+        ratings.append(new_title)
+        print("\nEntry added")
+        print_loop()
+print(f"Dictionary: {ratings}")
+
+
 
     # Here, get your title and rating
+
     # Do some data checking -- you want to make sure your rating is a number, after all:
 
-# Once you're done, you'll need to go through your list of ratings and output the format:
-for title, rating_list in ratings.items():
-    pass # Replace this line
+
+
+    # Once you're done, you'll need to go through your list of ratings and output the format:
+    # for title, rating_list in ratings.items():
+    # pass # Replace this line
 
 
