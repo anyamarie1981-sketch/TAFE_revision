@@ -36,15 +36,15 @@ Those averages look a bit ugly, please instead output them to 2 decimal places, 
 Extension 2:
 See how you might factor this into functions to improve readability.
 """
-# - Starting Variables -
+""" - Starting Variables - """
+# ratings will become a list of dictionaries
 ratings = []
-dictionary_keys = ("Title", "Rating")
 
-# - Defined Functions - 
+
+""" - Defined Functions - """
 
 def normal_text(s):
     return s.strip().casefold()
-
 
 def check_title(ratings, entry_check):
     entry = normal_text(entry_check)
@@ -58,12 +58,12 @@ def print_loop():
         title = entry["Title"].upper()
         ratings_list = entry["Rating"]
         calcs = rating_calc(entry)
-        print(f"\"{title}\" had ratings {ratings_list}.")
-        print(f"The minimum rating was: {calcs["min"]};" 
-              f" The maximum rating was: {calcs["max"]};"
-              f" The average rating was: {calcs["avg"]}")
-        # print(type(ratings))
-        # print(ratings)
+        print(f"\"{title}\" has ratings {ratings_list}."
+              f" The minimum rating is: {calcs["min"]};" 
+              f" The maximum rating is: {calcs["max"]};"
+              f" The average rating is: {calcs["avg"]}.")
+        # print(type(ratings))  #debug line
+        # print(ratings)        #debug line
  
 
 def rating_calc(entry):
@@ -75,7 +75,8 @@ def rating_calc(entry):
     }
 
 
-# - Input Loop -
+""" - Input Loop - """
+
 print("""
 Enter a Title followed by a rating. Ratings are out of 5.
 This should be in the format: Title, Number
@@ -95,7 +96,7 @@ while True:
         continue
     try:
         num_check = int(parts[1])
-        print(f"num_check: {num_check}")
+#        print(f"num_check: {num_check}")       #debug line
     except ValueError:
         print("Rating must be a number from 0-5")
         continue 
@@ -110,7 +111,7 @@ while True:
         }
     #        print(f"new-title: {new_title}")        #debug line
 
-    #    print("ratings type:", type(ratings), ratings)
+    #    print("ratings type:", type(ratings), ratings) #debug line
 
     existing_entry = check_title(ratings, parts[0])
 
@@ -125,16 +126,5 @@ while True:
         print_loop()
 print(f"Dictionary: {ratings}")
 
-
-
-    # Here, get your title and rating
-
-    # Do some data checking -- you want to make sure your rating is a number, after all:
-
-
-
-    # Once you're done, you'll need to go through your list of ratings and output the format:
-    # for title, rating_list in ratings.items():
-    # pass # Replace this line
 
 
