@@ -1,4 +1,4 @@
-# This file is for revision of work completed furing 
+This file is for revision of work completed during 
 # NMTAFE Cert IV in Information Technology (Programming) 2026
 
 All work in this repo is owned by myself and is the product of my own work.
